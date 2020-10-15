@@ -1,0 +1,683 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>How to Install Tomcat 8.5 on Ubuntu 16.04</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c8442fae-47e1-4bc3-b2e5-2a06bccc7d23" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="tomcat.png"/></div><h1 class="page-title">How to Install Tomcat 8.5 on Ubuntu 16.04</h1></header><div class="page-body"><hr id="53dfe11a-a747-4645-b44f-cf2115b640cb"/><nav id="2230348c-7112-41b9-8830-e02b8053ac21" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#04a2aa8c-8115-4e40-94d8-4d2a9a7dd529">사전조건</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f7204fc2-c8f5-41a7-bdcf-27e5c3485daf">설치</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fbd93bd5-cd77-4848-9ca7-efd177a2be46">OpenJDK 설치</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3b7590d5-4843-4cf2-b074-7babf9eff8a9">Tomcat 8.5 설치</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b8034280-1d33-4da9-a785-357e179ba145">systemd 등록</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8127cfda-f7f8-402f-9f8d-f75709da3a0e">방화벽 설정</a></div></nav><hr id="8df5f13c-fdcc-4143-b58e-ef6e6f578d46"/><h1 id="04a2aa8c-8115-4e40-94d8-4d2a9a7dd529" class="">사전조건</h1><p id="b2b4a4e1-fb67-407c-a6cd-2f9a2990493c" class="">설치를 시작하기 전에 sudo 권한이 있는 사용자로 로그인 했는지 확인 하십시오.</p><hr id="7f576c94-711c-40ce-be70-9596fd935a5b"/><h1 id="f7204fc2-c8f5-41a7-bdcf-27e5c3485daf" class="">설치</h1><h2 id="fbd93bd5-cd77-4848-9ca7-efd177a2be46" class="">OpenJDK 설치</h2><ol id="63b37e74-5e90-4a3a-a978-86d9ab26eab9" class="numbered-list" start="1"><li>apt 패키지 인덱스 업데이트:<pre id="3a1d1085-b84d-4ceb-a7fe-b500d7240221" class="code"><code>$ sudo apt update</code></pre><p id="fe897ed3-f0bd-47be-bfe9-78445053e5b5" class="">
+</p></li></ol><ol id="d22be3fa-bb67-477a-8974-202e3651b8a2" class="numbered-list" start="2"><li>OpenJDK 설치:<pre id="501dea9a-1de7-4a94-b01a-8296e7e348b5" class="code"><code>$ sudo apt install -y default-jdk</code></pre><p id="2ec6ab28-948a-4c44-96a9-86873c67f410" class="">
+</p></li></ol><ol id="6096f36b-c20f-4967-a2f9-68090da88499" class="numbered-list" start="3"><li>Java version 확인:<pre id="1aff41ac-3db9-4615-8215-584629785449" class="code"><code>$ java -version</code></pre><pre id="4038da74-6a8f-4c94-96b8-9e7f06fd41bf" class="code"><code>Output
+openjdk version &quot;1.8.0_265&quot;
+OpenJDK Runtime Environment (build 1.8.0_265-8u265-b01-0ubuntu2~16.04-b01)
+OpenJDK 64-Bit Server VM (build 25.265-b01, mixed mode)</code></pre><p id="b2988aee-a2b3-4919-b12a-df4e38587058" class="">
+</p></li></ol><h2 id="3b7590d5-4843-4cf2-b074-7babf9eff8a9" class="">Tomcat 8.5 설치</h2><ol id="2c5401e6-217d-42b8-bc7c-f5589b99ad00" class="numbered-list" start="1"><li>Tomcat user 생성:<p id="1530733c-5a86-4a9b-8afb-600f2ab3edeb" class="">Tomcat 서비스를 실행 할 홈 디렉토리 /opt/tomcat 의 시스템 사용자 및 그룹 생성</p><pre id="bcadbf97-a018-41b6-b2ca-9bc5f73e943d" class="code"><code>$ sudo useradd -m -U -d /opt/tomcat -s /bin/false tomcat</code></pre><p id="449074b0-5c32-492c-9580-3077487384e2" class="">
+</p></li></ol><ol id="f2bb61d6-99c8-457c-82a5-61b469b52577" class="numbered-list" start="2"><li>Tomcat 다운로드:<p id="b7fa5db5-fdb2-43b2-8064-adda9f4564f3" class="">설치 및 다운로드에 필요한 패키지 설치</p><pre id="fb0099a2-10aa-4974-820a-750c598b190c" class="code"><code>$ sudo apt install -y unzip wget</code></pre><p id="123ef2a6-bc83-465c-8993-802e375b1247" class="">
+</p><p id="decd0495-55ef-4062-a695-57dc467e1f8d" class="">/tmp 디렉토리에 tomcat 을 다운로드</p><pre id="1cc2f1ba-a23f-482c-b17c-4ddf307fae70" class="code"><code>$ cd /tmp
+$ wget https://downloads.apache.org/tomcat/tomcat-8/v8.5.59/bin/apache-tomcat-8.5.59.zip</code></pre><p id="2f32e77f-f074-4ce5-828a-3bf90ed18e37" class="">* Tomcat 다운로드 링크: <a href="https://tomcat.apache.org/download-80.cgi">https://tomcat.apache.org/download-80.cgi</a></p><p id="0284d5dc-a624-4f21-8ccf-ec96e01cedc5" class="">
+</p></li></ol><ol id="78aa5295-f954-453d-a618-b28c3040484f" class="numbered-list" start="3"><li>Tomcat 설치:<pre id="a8eaedbb-1049-410a-8ca0-2ec9139ea1cf" class="code"><code>$ unzip apache-tomcat-*.zip
+$ sudo mkdir -p /opt/tomcat
+$ sudo mv apache-tomcat-8.5.59 /opt/tomcat/</code></pre><p id="a3cbe814-53ff-4409-9a21-a42d8a56af5f" class="">
+</p></li></ol><ol id="22fe1fbc-25be-4c40-b2be-3b1f36015703" class="numbered-list" start="4"><li>Symbolic link 생성:<pre id="62dbe347-b3a4-4949-8440-67887f52f967" class="code"><code>$ sudo ln -s /opt/tomcat/apache-tomcat-8.5.59/ /opt/tomcat/latest</code></pre><p id="59c4da1a-71c6-4e41-ab00-4ebb10aba26e" class="">
+</p></li></ol><ol id="8df8e12a-c31e-43a3-9813-4da534ac2bc8" class="numbered-list" start="5"><li>/opt/tomcat 디렉토리 권한 변경:<pre id="717b4456-0f11-401d-bdd4-c74301d1f136" class="code"><code>$ sudo chown -R tomcat: /opt/tomcat</code></pre><p id="2a8f45aa-9dd8-4f97-9679-f47bff452ea1" class="">
+</p></li></ol><ol id="6ebef6e1-e5e9-4858-93d2-77982640f45f" class="numbered-list" start="6"><li>bin 디렉토리 실행 권한 추가:<pre id="cbf2f5d6-5c2a-4765-9b8d-bbda52e3c93a" class="code"><code>$ sudo sh -c &#x27;chmod +x /opt/tomcat/latest/bin/*.sh&#x27;</code></pre><p id="778d3d4d-948f-4e5c-a9f9-e0ce48a0773f" class="">
+</p></li></ol><h2 id="b8034280-1d33-4da9-a785-357e179ba145" class="">systemd 등록</h2><p id="db75a74c-7034-47d8-8015-d0a90f232d50" class="">Tomcat 을 service 로 등록하기위해 unit file tomcat.service 생성</p><ol id="e6d5cc94-51c4-447b-905e-af27df3cd107" class="numbered-list" start="1"><li>tomcat.service 생성<pre id="cd9da8a9-ae66-4c34-972a-e556a1155019" class="code"><code>$ cd /etc/systemd/system/
+$ sudo vi /etc/systemd/system/tomcat.service</code></pre><p id="87000b78-7b8f-429a-af2c-5eec23bfbeb3" class="">
+</p><p id="c07c9180-efe1-4a9d-b03d-92eb8e419c95" class="">/etc/systemd/system/tomcat.service</p><pre id="7ce88504-ef06-468d-b2fb-eb728ed4b1d3" class="code"><code>[Unit]
+Description=Tomcat 8.5 servlet container
+After=network.target
+
+[Service]
+Type=forking
+
+User=tomcat
+Group=tomcat
+
+Environment=&quot;JAVA_HOME=/usr/lib/jvm/default-java&quot;
+Environment=&quot;JAVA_OPTS=-Djava.security.egd=file:///dev/urandom&quot;
+
+Environment=&quot;CATALINA_BASE=/opt/tomcat/latest&quot;
+Environment=&quot;CATALINA_HOME=/opt/tomcat/latest&quot;
+Environment=&quot;CATALINA_PID=/opt/tomcat/latest/temp/tomcat.pid&quot;
+Environment=&quot;CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC&quot;
+
+ExecStart=/opt/tomcat/latest/bin/startup.sh
+ExecStop=/opt/tomcat/latest/bin/shutdown.sh
+
+[Install]
+WantedBy=multi-user.target</code></pre><p id="5cec7d24-b101-4520-b13c-719b729034a8" class="">
+</p></li></ol><ol id="8449e6dd-05a1-443d-ae2c-3df7d877b7d4" class="numbered-list" start="2"><li>Tomcat service 실행:<pre id="e68128da-585d-4b12-b617-296680d54760" class="code"><code>$ sudo systemctl daemon-reload
+$ sudo systemctl start tomcat</code></pre><p id="dbcc899b-4283-4cab-a100-4ba126fcae13" class="">
+</p></li></ol><ol id="29c2fd3b-d129-429e-a9c6-c4986caf5f6a" class="numbered-list" start="3"><li>Tomcat 서비스 상태 확인:<pre id="036beb4b-b6f5-42c0-bf6c-7146ddcf3866" class="code"><code>$ sudo systemctl status tomcat</code></pre><pre id="9737bd8c-a250-4ac3-b04d-94bd828be272" class="code"><code>Output
+● tomcat.service - Tomcat 8.5 servlet container
+   Loaded: loaded (/etc/systemd/system/tomcat.service; disabled; vendor preset: enabled)
+   Active: active (running) since Thu 2020-10-15 03:43:24 UTC; 19s ago
+  Process: 10688 ExecStart=/opt/tomcat/latest/bin/startup.sh (code=exited, status=0/SUCCESS)
+ Main PID: 10697 (java)
+    Tasks: 28
+   Memory: 116.5M
+      CPU: 2.519s
+   CGroup: /system.slice/tomcat.service
+           └─10697 /usr/lib/jvm/default-java/bin/java -Djava.util.logging.config.file=/opt/tomcat/latest/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogMan</code></pre><p id="e3adfc21-a5a8-456f-90db-b5cd28820e84" class="">
+</p></li></ol><ol id="e4c812fd-15f1-4f00-9e68-10d02201abff" class="numbered-list" start="4"><li>부팅시 자동시작 설정:<pre id="7435730e-c57f-4f9c-8a64-1efd62b58ff1" class="code"><code>$ sudo systemctl enable tomcat</code></pre></li></ol><p id="a47faab1-fe95-41f0-863d-01b95ab5017b" class="">
+</p><h2 id="8127cfda-f7f8-402f-9f8d-f75709da3a0e" class="">방화벽 설정</h2><p id="d4d67f20-7596-4733-a6a9-d5d146f8cf59" class="">우분투 방화벽 ufw 에 tomcat service port 8080 허용 설정</p><pre id="2725c30f-02ae-478f-81f8-518b71672385" class="code"><code>$ sudo ufw allow 8080/tcp</code></pre><p id="292c6284-d609-4b32-ba82-c160b47ff567" class="">
+</p><hr id="369eeb10-318d-454b-a9f0-9e5f090bbd34"/><p id="8f032045-a631-4edd-9cec-b365fcb01d22" class="">End</p></div></article></body></html>
